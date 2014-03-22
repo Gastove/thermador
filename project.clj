@@ -3,7 +3,7 @@
   :url "http://clj-server-test.herokuapp.com"
   :license {:name "FIXME: choose"
             :url "http://example.com/FIXME"}
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [compojure "1.1.1"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
