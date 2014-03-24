@@ -9,7 +9,8 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
-            [environ.core :refer [env]]))
+            [environ.core :refer [env]]
+            [clj-server-test.home :as home]))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
@@ -20,6 +21,7 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes app
+  home/routes
   (ANY "/repl" {:as req}
        (drawbridge req))
   (GET "/" []
