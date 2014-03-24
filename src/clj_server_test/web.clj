@@ -6,11 +6,14 @@
             [ring.middleware.stacktrace :as trace]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
+            [ring.middleware.cors :as cors]
+            [ring.middleware.reload :as reload]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
-            [clj-server-test.home :as home]))
+            [clj-server-test.home :as home]
+            ))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
@@ -20,7 +23,7 @@
       (session/wrap-session)
       (basic/wrap-basic-authentication authenticated?)))
 
-(defroutes app
+(defroutes application-routes
   home/routes
   (ANY "/repl" {:as req}
        (drawbridge req))
@@ -30,6 +33,11 @@
         :body (pr-str ["Hello" :from 'Heroku])})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
+
+(def application (-> (site application-routes)
+                     reload/wrap-reload
+                     (cors/wrap-cors :access-control-allow-origin #".+")
+                     ))
 
 (defn wrap-error-page [handler]
   (fn [req]
@@ -43,7 +51,7 @@
   (let [port (Integer. (or port (env :port) 5000))
         ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
         store (cookie/cookie-store {:key (env :session-secret)})]
-    (jetty/run-jetty (-> #'app
+    (jetty/run-jetty (-> application
                          ((if (env :production)
                             wrap-error-page
                             trace/wrap-stacktrace))
