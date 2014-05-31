@@ -3,19 +3,31 @@
             [clojure.java.io :refer [resource]]
             [cheshire.core :refer [generate-string]]))
 
-(def resource-map {
-                   :home})
+(defn slurp-from-location
+  "Slurp the contents of a resource at a given location "
+  [location]
+  (slurp (resource location)))
 
-(defn load-post [path]
-  (slurp (resource path)))
+(defn load-resource-make-path
+  "Load a page from a location, given "
+  [location resource extension]
+  (let [stresource (name resource)])
+  (slurp-from-location (str location "/" resource "." extension)))
 
-(defn make-return [id body tags]
-  (generate-string {:id id :body body :tags tags}))
+(defn load-md-page
+  [page]
+  (load-resource-make-path "md" page "markdown"))
 
-(def body (make-return "Home" (load-post "md/home.markdown") "who what where?"))
+(defn make-return
+  [id]
+  (let [body (load-md-page id)
+        status 200
+        headers {"Content-Type" "text/html"}
+        json-payload (generate-string {:id id :body body})]
+    {:status status
+     :headers headers
+     :body body}))
 
 (defroutes routes
-  (GET "/api/home/:id" [:id]
-       {:status 200
-        :headers {"Content-Type" "text/html"}
-        :body body}))
+  (GET "/api/home/:id" [id] (make-return id)
+       ))
