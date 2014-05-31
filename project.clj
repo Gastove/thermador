@@ -4,6 +4,8 @@
   :license {:name "FIXME: choose"
             :url "http://example.com/FIXME"}
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [org.clojure/java.jdbc "0.3.3"]
+                 [postgresql "9.3-1101.jdbc4"]
                  [compojure "1.1.1"]
                  [ring/ring-jetty-adapter "1.1.0"]
                  [ring/ring-devel "1.1.0"]
