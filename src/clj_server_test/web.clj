@@ -13,6 +13,7 @@
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
             [clj-server-test.home :as home]
+            [clj-server-test.config.migration :as migration]
             ))
 
 (defn- authenticated? [user pass]
@@ -48,6 +49,7 @@
             :body (slurp (io/resource "500.html"))}))))
 
 (defn -main [& [port]]
+  (migration/migrate-known-models)
   (let [port (Integer. (or port (env :port) 5000))
         ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
         store (cookie/cookie-store {:key (env :session-secret)})]
