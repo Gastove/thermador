@@ -13,7 +13,8 @@
                  [ring-cors "0.1.0"]
                  [cheshire "5.3.1"]
                  [environ "0.2.1"]
-                 [com.cemerick/drawbridge "0.0.6"]]
+                 [com.cemerick/drawbridge "0.0.6"]
+                 [com.dropbox.core/dropbox-core-sdk "1.7.4"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.2.1"]]
   :hooks [environ.leiningen.hooks]
