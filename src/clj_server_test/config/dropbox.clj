@@ -1,7 +1,6 @@
 (ns clj-server-test.config.dropbox
   (:require [environ.core :refer [env]])
-  (:import [com.dropbox.core.DbxRequestConfig]
-           [com.dropbox.core.DbxClient]
+  (:import [com.dropbox.core DbxRequestConfig DbxClient]
            [java.util.Locale]
            [java.io.ByteArrayOutputStream]))
 

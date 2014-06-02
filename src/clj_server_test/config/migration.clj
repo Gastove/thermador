@@ -12,7 +12,7 @@
 (defn migrate
   [{:keys [table-name table-ddl]}]
   (if (migrated? table-name)
-    (println (str "Table " table " already migrated."))
+    (println (str "Table " table-name " already migrated."))
     (do
       (print (str "Migrating table " table-name "...  "))
       (flush)
