@@ -15,6 +15,9 @@
 (def db-properties {:table-name table-name
                     :table-ddl table-ddl})
 
+;; TODO: Get this the hell out of this ns :-P
+;; TODO: Need a "update text in DB" function.
+
 (defn add-page []
   (let [prompt (fn [word] (println (str word "?"))(read-line))
         name (prompt "Name")
