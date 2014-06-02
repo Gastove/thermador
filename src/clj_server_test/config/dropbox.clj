@@ -1,6 +1,7 @@
 (ns clj-server-test.config.dropbox
   (:require [environ.core :refer [env]])
-  (:import [[com.dropbox.core DbxAppInfo DbxRequestConfig DbxWebAuthNoRedirect DbxClient]
+  (:import [[com.dropbox.core.DbxRequestConfig]
+            [com.dropbox.core.DbxClient]
             [java.util.Locale]
             [java.io.ByteArrayOutputStream]]))
 
@@ -18,7 +19,7 @@
     (DbxClient. config access-token)))
 
 (defn load-file-from-dbx [file-path]
-  (let [client (get-dbx-client)
-        stream (java.io.ByteArrayOutputStream)
-        file-stream (.getFile client file-path nil stream)]
-    (.toString file-stream))))
+  (let [client (get-dbx-client)]
+    (with-open [stream (java.io.ByteArrayOutputStream)]
+      (.getFile client file-path nil stream)
+      (.toString file-stream)))))
