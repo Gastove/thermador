@@ -13,5 +13,5 @@
      :body body}))
 
 (defroutes routes
-  (GET "/home/:id" [id] (make-return (page/get-by-name id)))
-  (GET "/home/" [] (make-return (page/get-all))))
+  (GET "/:id" [id] (make-return (page/get-by-name id)))
+  (GET "/" [] (make-return (page/get-all))))

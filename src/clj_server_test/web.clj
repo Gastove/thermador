@@ -1,5 +1,5 @@
 (ns clj-server-test.web
-  (:require [compojure.core :refer [defroutes GET PUT POST DELETE ANY]]
+  (:require [compojure.core :refer [defroutes context GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
             [clojure.java.io :as io]
@@ -25,7 +25,7 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes application-routes
-  home/routes
+  (context "/api/home" [] home/routes)
   (ANY "/repl" {:as req}
        (drawbridge req))
   (GET "/" []
