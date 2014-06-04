@@ -22,7 +22,7 @@
   (sql/query DB ["SELECT * FROM pages"]))
 
 (defn get-by-name [name]
-  (first (sql/query DB ["SELECT * FROM pages WHERE name = ?" name])))
+  (sql/query DB ["SELECT * FROM pages WHERE name = ?" name]))
 
 (defn prompt [word]
   (println (str word "\n--> "))
