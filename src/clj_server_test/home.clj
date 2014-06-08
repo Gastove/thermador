@@ -5,7 +5,12 @@
             [clj-server-test.models.page :as page]))
 
 (defn make-return [posts]
-  (let [body (generate-string (for [{:keys [id body]} posts] {:id id :body body}))
+  (let [body (generate-string (for [{:keys [id name title body created_on]} posts]
+                                {:id id
+                                 :name name
+                                 :body body
+                                 :title title
+                                 :created_on created_on}))
         status 200
         headers {"Content-Type" "text/html"}]
     {:status status

@@ -9,8 +9,9 @@
                 :pages
                 [:id :serial "PRIMARY KEY"]
                 [:name :varchar]
+                [:title :varchar]
                 [:body :text]
-                [:created_at :timestamp "NOT NULL" "DEFAULT CURRENT_TIMESTAMP"]))
+                [:created_on :timestamp "NOT NULL" "DEFAULT CURRENT_TIMESTAMP"]))
 
 (def db-properties {:table-name table-name
                     :table-ddl table-ddl})
@@ -35,10 +36,11 @@
   (prompt word))
 
 (defn add-page []
-  (let [name (prompt "Name")
-        path (prompt "Path")
-        body (dbx/load-file-from-dbx path)]
-    (sql/insert! DB :pages {:name name :body body})))
+  (let [path (prompt "Path?")
+        body (dbx/load-file-from-dbx path)
+        name (prompt "Name?")
+        title (prompt "Title?")]
+    (sql/insert! DB :pages {:name name :body body :title title})))
 
 (defn update-page []
   (let [all-page-names (map :name (get-all))
