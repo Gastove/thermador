@@ -12,8 +12,8 @@
                  [cheshire "5.3.1"]
                  [environ "0.5.0"]
                  [com.cemerick/drawbridge "0.0.6"]
-                 [com.dropbox.core/dropbox-core-sdk "1.7.4"]]
+                 [com.dropbox.core/dropbox-core-sdk "1.7.4"]
+                 [com.taoensso/carmine "2.6.2"]]
   :min-lein-version "2.0.0"
   :plugins [[lein-environ "0.5.0"]]
-  ;:hooks [environ.leiningen.hooks]
   :profiles {:production {:env {:production true}}})
