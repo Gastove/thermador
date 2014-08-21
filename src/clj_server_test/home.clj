@@ -1,8 +1,8 @@
-(ns clj-server-test.home
+(ns thermador.home
   (:require [compojure.core :refer [defroutes GET]]
             [clojure.java.io :refer [resource file]]
             [cheshire.core :refer [generate-string]]
-            [clj-server-test.models.page :as page]))
+            [thermador.models.page :as page]))
 
 (defn make-return [posts]
   (let [body (generate-string (for [{:keys [id name title body created_on]} posts]

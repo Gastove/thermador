@@ -1,1 +1,1 @@
-web: lein with-profile production trampoline run -m clj-server-test.web
+web: lein with-profile production trampoline run -m thermador.web

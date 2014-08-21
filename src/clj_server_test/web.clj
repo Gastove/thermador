@@ -1,4 +1,4 @@
-(ns clj-server-test.web
+(ns thermador.web
   (:require [compojure.core :refer [defroutes context GET PUT POST DELETE ANY]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
@@ -12,8 +12,8 @@
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
-            [clj-server-test.home :as home]
-            [clj-server-test.config.migration :as migration]
+            [thermador.home :as home]
+            [thermador.config.migration :as migration]
             ))
 
 (defn- authenticated? [user pass]

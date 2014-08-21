@@ -1,4 +1,4 @@
-(ns clj-server-test.config.dropbox
+(ns thermador.config.dropbox
   (:require [environ.core :refer [env]])
   (:import [com.dropbox.core DbxRequestConfig DbxClient]
            [java.util.Locale]

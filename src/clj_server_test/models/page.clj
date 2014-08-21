@@ -1,7 +1,7 @@
-(ns clj-server-test.models.page
+(ns thermador.models.page
   (:require [clojure.java.jdbc :as sql]
-            [clj-server-test.config.database :refer [DB]]
-            [clj-server-test.config.dropbox :as dbx]))
+            [thermador.config.database :refer [DB]]
+            [thermador.config.dropbox :as dbx]))
 
 (def table-name "pages")
 

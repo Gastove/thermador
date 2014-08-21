@@ -1,7 +1,7 @@
-(ns clj-server-test.config.migration
-  (:require [clj-server-test.config.database :refer [DB]]
+(ns thermador.config.migration
+  (:require [thermador.config.database :refer [DB]]
             [clojure.java.jdbc :as sql]
-            [clj-server-test.models.page :as page]))
+            [thermador.models.page :as page]))
 
 (defn migrated?
   [table]

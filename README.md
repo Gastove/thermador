@@ -1,4 +1,4 @@
-# clj-server-test
+# thermador
 
 A [Heroku](http://www.heroku.com) web app using Compojure.
 
@@ -15,7 +15,7 @@ To start a local web server for development you can either eval the
 commented out forms at the bottom of `web.clj` from your editor or
 launch from the command line:
 
-    $ lein run -m clj-server-test.web
+    $ lein run -m thermador.web
 
 Initialize a git repository for your project.
 
@@ -27,9 +27,9 @@ You'll need the [heroku toolbelt](https://toolbelt.herokuapp.com)
 installed to manage the heroku side of your app. Once it's installed,
 get the app created:
 
-    $ heroku apps:create clj-server-test
-    Creating clj-server-test... done, stack is cedar
-    http://clj-server-test.herokuapp.com/ | git@heroku.com:clj-server-test.git
+    $ heroku apps:create thermador
+    Creating thermador... done, stack is cedar
+    http://thermador.herokuapp.com/ | git@heroku.com:thermador.git
     Git remote heroku added
 
 You can deploy the skeleton project immediately:
@@ -44,14 +44,14 @@ You can deploy the skeleton project immediately:
            Downloading: leiningen-2.0.0-preview7-standalone.jar
     [...]
     -----> Launching... done, v3
-           http://clj-server-test.herokuapp.com deployed to Heroku
+           http://thermador.herokuapp.com deployed to Heroku
 
-    To git@heroku.com:clj-server-test.git
+    To git@heroku.com:thermador.git
      * [new branch]      master -> master
 
 It's live! Hit it with `curl`:
 
-    $ curl http://clj-server-test.herokuap.com
+    $ curl http://thermador.herokuap.com
     ["Hello" :from Heroku]
 
 The cookie-backed session store needs a session secret configured for encryption:

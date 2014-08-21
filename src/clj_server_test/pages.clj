@@ -1,4 +1,4 @@
-(ns clj-server-test.pages
+(ns thermador.pages
   (:require [compojure.core  :refer [defroutes ALL GET]]
             [clojure.java.io :refer [resources]]
             [cheshir.core    :refer [generate-string]]
