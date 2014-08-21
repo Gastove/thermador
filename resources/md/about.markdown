@@ -6,7 +6,7 @@ Now I work in tech.
 
 I got there mostly by getting a [Master's Degree](http://ischool.uw.edu/) in Information Science -- effectively getting a degree in explaining what my degree means. Information Science is something I believe in very strongly, but it's still mostly unknown as a discipline. I like to put it this way:
 
-blockquote Information Science is the discipline of understanding what a person needs to know to Get Stuff Done, often in the context of an organization. Information Science is the study of how that information is generated, provisioned, delivered, communicated, used, stored -- the whole works. Information science is library science + design + an MBA.
+> Information Science is the discipline of understanding what a person needs to know to Get Stuff Done, often in the context of an organization. Information Science is the study of how that information is generated, provisioned, delivered, communicated, used, stored -- the whole works. Information science is library science + design + an MBA.
 
 
 I started in 2011 at [Self Aware Games](http://www.selfawaregames.com/); at the time, I was the first person to focus on user behavior. Information science has, it turns out, a complementary discpipline called data science, which I found and fell in love with. I learned to develop, first in the native PHP of our game servers, then in Python, then in functional Scala. I work extensively with HiveQL and some with IBM Netezza; I do a great deal of statistical analysis in R.
