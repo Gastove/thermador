@@ -5,7 +5,8 @@
 (def -PageDefaults
   {:title ""
    :id 0
-   :body ""})
+   :body ""
+   :redis-key-name "Page"})
 
 (def Page
   (let [n (proto/beget base/Base)]

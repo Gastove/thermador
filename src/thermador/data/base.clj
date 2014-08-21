@@ -6,4 +6,5 @@
   (DateTime. DateTimeZone/UTC))
 
 (def Base
-  {:created-on (now)})
+  {:redis-key-name "Thermador"
+   :created-on (now)})
