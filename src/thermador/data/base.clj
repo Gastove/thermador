@@ -13,10 +13,11 @@
   There's a lot that should happen to make sure an edit is
   correct; that work will *eventually* happen here.
   "
-  [pobj]
-  (let [key-vector (proto/key-chain pobj)
+  [pobj f]
+  (let [new-pobj (f pobj)
+        key-vector (proto/key-chain new-pobj)
         db-key (datastore/assemble-redis-key key-vector)]
-    (datastore/db set db-key pobj)))
+    (datastore/db set db-key new-pobj)))
 
 (def Base
   {:redis-key-name "Thermador"
