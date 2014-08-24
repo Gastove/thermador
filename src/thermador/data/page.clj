@@ -10,8 +10,8 @@
 (def -PageModelFields
   {:datum-name "Page"})
 
-(def Page model/create-model "Page" -PageModelFields)
+(def Page (model/create-model -PageModelFields))
 
 (defn create-page
-  ([] (model/create Page -PageEntityFields))
-  ([fields] (model/create Page Page -PageEntityFields fields)))
+  [fields]
+  (model/create Page -PageEntityFields fields))

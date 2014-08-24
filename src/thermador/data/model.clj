@@ -3,7 +3,8 @@
   and create models."
   (:require [thermador.config.database :as datastore]
             [thermador.data.proto :as proto]
-            [taoensso.carmine :as carmine])
+            [taoensso.carmine :as carmine]
+            [clojure.string :as string])
   (:import [org.joda.time DateTime DateTimeZone]))
 
 (defn now
@@ -15,19 +16,20 @@
    :created-on (now)})
 
 (defn create-model
-  [model-fields & {parent-obj :parent & {parent-obj Base}}]
+  [model-fields & {parent-obj :parent :or {parent-obj Base}}]
   (let [new-model (proto/beget parent-obj)]
     (proto/extend new-model model-fields)))
 
-(declare store-pobj store-key)
+(declare store-pobj store-key key-chain)
 (defn create
-  [model default-entity-fields & {entity-fields :entity-fields}]
+  [model default-entity-fields entity-fields]
+  {:pre [(not (string/blank? (:datum-name entity-fields)))]}
   (let [base (proto/beget model)
         obj-fields (merge default-entity-fields entity-fields)
         new-pobj (proto/extend base obj-fields)
-        key-parts (proto/key-chain :datum-name new-pobj)
+        key-parts (key-chain :datum-name new-pobj)
         pobj-key (datastore/assemble-redis-key key-parts)
-        parent-key-parts (proto/key-chain :datum-name model)
+        parent-key-parts (key-chain :datum-name model)
         parent-key (datastore/assemble-redis-key parent-key-parts)]
     (store-pobj new-pobj pobj-key)
     (store-key parent-key pobj-key)
@@ -40,7 +42,7 @@
   correct; that work will *eventually* happen here. Probably.
   "
   [pobj f]
-  (let [key-parts (proto/key-chain :datum-name pobj)
+  (let [key-parts (key-chain :datum-name pobj)
         db-key (datastore/assemble-redis-key key-parts)]
     (swap! pobj f)
     (datastore/db set db-key pobj)))

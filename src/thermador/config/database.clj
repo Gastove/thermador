@@ -4,10 +4,7 @@
 
 (def DB (or (env :database-url) "postgres://localhost:5432/thermador"))
 
-(declare heroku-configs)
-(def conn-props (or
-                 heroku-configs
-                 nil))
+(def conn-props {})
 
 (defmacro db
   "Do something in the context of the configured DB"
