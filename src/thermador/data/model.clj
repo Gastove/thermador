@@ -20,17 +20,15 @@
   (let [new-model (proto/beget parent-obj)]
     (proto/extend new-model model-fields)))
 
-(declare store-pobj store-key key-chain)
+(declare store-pobj store-key make-key)
 (defn create
   [model default-entity-fields entity-fields]
   {:pre [(not (string/blank? (:datum-name entity-fields)))]}
   (let [base (proto/beget model)
         obj-fields (merge default-entity-fields entity-fields)
         new-pobj (proto/extend base obj-fields)
-        key-parts (key-chain :datum-name new-pobj)
-        pobj-key (datastore/assemble-redis-key key-parts)
-        parent-key-parts (key-chain :datum-name model)
-        parent-key (datastore/assemble-redis-key parent-key-parts)]
+        pobj-key (make-key :datum-name new-pobj)
+        parent-key (make-key :datum-name model)]
     (store-pobj new-pobj pobj-key)
     (store-key parent-key pobj-key)
     (atom new-pobj)))
@@ -65,6 +63,9 @@
   (datastore/db (carmine/set k pobj)))
 
 (defn store-key
+  "Puts a proto objects key in a set, itself stored at the key
+  of the model. I.E., Thermador:Page:HomePage will live in the
+  set Thermador:Page"
   [set-key k]
   (datastore/db (carmine/sadd set-key k)))
 
@@ -77,4 +78,9 @@
              (= k lookup-key) (conj acc v)
              (and (not= k lookup-key) (not= k :prototype)) acc
              :else (into acc (reduce woah [] v))))]
-    (reverse (reduce woah [] pobj))))
+    (reduce woah [] pobj)))
+
+(defn make-key
+  [lookup-key pobj]
+  (let [key-parts (key-chain lookup-key pobj)]
+    (datastore/assemble-redis-key key-parts)))
