@@ -45,19 +45,28 @@
   (let [key-parts (key-chain :datum-name pobj)
         db-key (datastore/assemble-redis-key key-parts)]
     (swap! pobj f)
-    (datastore/db set db-key pobj)))
+    (datastore/db (carmine/set db-key pobj))))
 
-(defn retrieve
-  [k]
-  (datastore/db carmine/get k))
+(defmulti retrieve identity)
+(defmethod retrieve :all
+  [dispatch-val set-key]
+  (let [all-keys (datastore/db (carmine/get set-key))]
+    (datastore/db (carmine/mget all-keys))))
+(defmethod retrieve :all-like
+  [dispatch-val key-pattern]
+  (let [like-keys (datastore/db (carmine/keys key-pattern))]
+    (datastore/db (carmine/mget like-keys))))
+(defmethod retrieve :key
+  [dispatch-val k]
+  (datastore/db (carmine/get k)))
 
 (defn store-pobj
   [pobj k]
-  (datastore/db carmine/set k pobj))
+  (datastore/db (carmine/set k pobj)))
 
 (defn store-key
   [set-key k]
-  (datastore/db carmine/sadd set-key k))
+  (datastore/db (carmine/sadd set-key k)))
 
 (defn key-chain
   "A key can exist in many levels of a prototype chain.
