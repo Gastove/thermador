@@ -8,10 +8,14 @@
   (:import [org.joda.time DateTime DateTimeZone]))
 
 (defn now
+  "Utility function for current time in millis."
   []
   (DateTime. DateTimeZone/UTC))
 
 (def Base
+  "The root for all the models in the server. Provides a
+  redis key prefix and a created-on time... which makes no sense."
+  ;; TODO: probs. don't want created-on here. Makes no sense.
   {:datum-name "Thermador"
    :created-on (now)})
 
@@ -22,6 +26,10 @@
 
 (declare store-pobj store-key make-key)
 (defn create
+  "Create a new object that is new link in the prototype chain
+  off of some existing model. Beget, then extend; set fields.
+  Finally, store the key of the child in the keyset of the model,
+  store the child, and return the child wrapped in an atom."
   [model default-entity-fields entity-fields]
   {:pre [(not (string/blank? (:datum-name entity-fields)))]}
   (let [base (proto/beget model)
