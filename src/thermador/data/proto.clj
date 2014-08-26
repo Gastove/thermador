@@ -12,7 +12,7 @@
   (if-let [res (k pobj)]
     res
     (if-let [proto (:prototype pobj)]
-      (get proto k)
+      (recur proto k)
       nil)))
 
 (defn extend
