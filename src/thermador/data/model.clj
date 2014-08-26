@@ -96,6 +96,11 @@
     (reduce woah [] pobj)))
 
 (defn make-key
-  [lookup-key pobj]
-  (let [key-parts (key-chain lookup-key pobj)]
-    (datastore/assemble-redis-key key-parts)))
+  ([lookup-key pobj]
+     (let [key-parts (key-chain lookup-key pobj)]
+       (datastore/assemble-redis-key key-parts)))
+  ([lookup-key model entity-id]
+     (let [model-parts (key-chain lookup-key model)
+           entity-key (string/capitalize entity-id)
+           key-parts (conj model-parts entity-key)]
+       (datastore/assemble-redis-key key-parts))))
