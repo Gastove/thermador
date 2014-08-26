@@ -53,10 +53,11 @@
     (swap! pobj f)
     (datastore/db (carmine/set db-key pobj))))
 
-(defmulti retrieve identity)
+(defmulti retrieve (fn [dispatch-val & args] dispatch-val))
 (defmethod retrieve :all
-  [dispatch-val set-key]
-  (let [all-keys (datastore/db (carmine/get set-key))]
+  [dispatch-val lookup-key model]
+  (let [set-key (make-key lookup-key model)
+        all-keys (datastore/db (carmine/get set-key))]
     (datastore/db (carmine/mget all-keys))))
 (defmethod retrieve :all-like
   [dispatch-val key-pattern]
@@ -65,6 +66,12 @@
 (defmethod retrieve :key
   [dispatch-val k]
   (datastore/db (carmine/get k)))
+(defmethod retrieve :lookup-id
+  [dispatch-val lookup-key model id]
+  (let [k (make-key lookup-key model id)]
+    (datastore/db (carmine/get k))))
+
+
 
 (defn store-pobj
   [pobj k]
