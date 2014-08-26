@@ -1,5 +1,5 @@
 (ns thermador.data.page
-  (:require [thermador.rest :as rest-api]
+  (:require ;; [thermador.rest :as rest-api]
             [thermador.data.model :as model]
             [compojure.core :refer [defroutes GET]]
             [cheshire.core :refer [generate-string]]))
@@ -20,6 +20,6 @@
   [fields]
   (model/create Page -PageEntityFields fields))
 
-(defroutes page-routes
-  (GET "/:id" [id] (rest-api/make-return (model/retrieve :lookup-id :datum-name Page id)))
-  (GET "/" [] (rest-api/make-return (model/retrieve :all :datum-name Page))))
+;; (defroutes page-routes
+;;   (GET "/:id" [id] (rest-api/make-return (model/retrieve :lookup-id :datum-name Page id)))
+;;   (GET "/" [] (rest-api/make-return (model/retrieve :all :datum-name Page))))
