@@ -1,0 +1,9 @@
+* Boy, this is hard.
+* Functional CRUD
+  What, really, is the difference between:
+  1. Creating a new thing with new fields.
+  2. Storing an old thing with existing fields?
+  Really, it's only a question of where the fields come from -- do they need to be set,
+  or do they already exist?
+
+  What ID will a REST request process?
