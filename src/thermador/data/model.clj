@@ -24,7 +24,7 @@
   (let [new-model (proto/beget parent-obj)]
     (proto/extend new-model model-fields)))
 
-(declare store-pobj store-key make-key)
+(declare store-pobj store-key make-key key-chain)
 (defn create
   "Create a new object that is new link in the prototype chain
   off of some existing model. Beget, then extend; set fields.
@@ -58,8 +58,9 @@
 (defmethod retrieve :all
   [dispatch-val lookup-key model]
   (let [set-key (make-key lookup-key model)
-        all-keys (datastore/db (carmine/get set-key))]
-    (datastore/db (carmine/mget all-keys))))
+        all-keys (datastore/db (carmine/smembers set-key))
+        models (datastore/db (apply carmine/mget all-keys))]
+    (map atom models)))
 (defmethod retrieve :all-like
   [dispatch-val key-pattern]
   (let [like-keys (datastore/db (carmine/keys key-pattern))]
