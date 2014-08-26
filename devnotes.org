@@ -7,3 +7,11 @@
   or do they already exist?
 
   What ID will a REST request process?
+
+  + *So here's a thing*:
+    - I've been calling a model an Atom, but right now they aren't returned as atoms from the DB.
+      ...or are they?
+
+* TODO
+  - [0/0]
+  - [ ] Figure atoms out. Make this consistent
