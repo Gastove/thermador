@@ -7,4 +7,4 @@
   (is true "I hope true is true"))
 
 (deftest redis-connection
-  (is (= ("PONG" (datastore/db (carmine/ping)))) "Do we have ping?"))
+  (is (= "PONG" (datastore/db (carmine/ping))) "Do we have ping?"))
