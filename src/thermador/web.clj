@@ -14,7 +14,7 @@
             [environ.core :refer [env]]
             [thermador.home :as home]
             [thermador.config.migration :as migration]
-            [thermador.data.page :as page]
+            [thermador.rest :as rest-api]
             ))
 
 (defn- authenticated? [user pass]
@@ -26,8 +26,8 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes application-routes
-  (context "/api/home" [] home/routes)
-  (context "/api/page" [] page/page-routes)
+;  (context "/api/home" [] home/routes)
+  (context "/api" [] rest-api/rest-routes)
   (ANY "/repl" {:as req}
        (drawbridge req))
   (GET "/" []
