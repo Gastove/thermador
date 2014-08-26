@@ -20,6 +20,9 @@
   [fields]
   (model/create Page -PageEntityFields fields))
 
+;; This 100% definitely has to live in a different namespace.
+;; Probably need a REST-specific ns? Or expose it as an API
+;; through model?
 (defmulti make-return
   (fn [d]
     (cond

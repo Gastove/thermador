@@ -53,6 +53,7 @@
     (swap! pobj f)
     (datastore/db (carmine/set db-key pobj))))
 
+;; this is.... getting big
 (defmulti retrieve (fn [dispatch-val & args] dispatch-val))
 (defmethod retrieve :all
   [dispatch-val lookup-key model]
@@ -70,8 +71,6 @@
   [dispatch-val lookup-key model id]
   (let [k (make-key lookup-key model id)]
     (datastore/db (carmine/get k))))
-
-
 
 (defn store-pobj
   [pobj k]
