@@ -60,7 +60,7 @@
   (let [set-key (make-key lookup-key model)
         all-keys (datastore/db (carmine/smembers set-key))
         models (datastore/db (apply carmine/mget all-keys))]
-    (map atom models)))
+    (into [] (map atom models))))
 (defmethod retrieve :all-like
   [dispatch-val key-pattern]
   (let [like-keys (datastore/db (carmine/keys key-pattern))]
