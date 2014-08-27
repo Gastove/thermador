@@ -14,7 +14,14 @@
                  [com.cemerick/drawbridge "0.0.6"]
                  [com.dropbox.core/dropbox-core-sdk "1.7.4"]
                  [com.taoensso/carmine "2.6.2"]
-                 [joda-time/joda-time "2.4"]]
+                 [joda-time/joda-time "2.4"]
+                 ;[midje "1.6.3"]
+                 ]
   :min-lein-version "2.0.0"
-  :plugins [[lein-environ "0.5.0"]]
-  :profiles {:production {:env {:production true}}})
+  :plugins [[lein-environ "0.5.0"]
+            [lein-ring "0.8.11"]]
+  :ring {:handler thermador.web/application-routes}
+  :profiles {:production {:env {:production true}}
+             :dev {:env {:production false}
+                   :dependencies [[midje "1.6.3"]]}}
+  )
