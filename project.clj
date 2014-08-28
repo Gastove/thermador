@@ -21,6 +21,5 @@
             [lein-ring "0.8.11"]]
   :ring {:handler thermador.web/application-routes}
   :profiles {:production {:env {:production true}}
-             :dev {:env {:production false}
-                   :dependencies [[midje "1.6.3"]]}}
+             :dev {:env {:production false}}}
   )
