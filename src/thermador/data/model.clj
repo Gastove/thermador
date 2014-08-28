@@ -63,15 +63,19 @@
     (into [] (map atom models))))
 (defmethod retrieve :all-like
   [dispatch-val key-pattern]
-  (let [like-keys (datastore/db (carmine/keys key-pattern))]
-    (datastore/db (carmine/mget like-keys))))
+  (let [like-keys (datastore/db (carmine/keys key-pattern))
+        found-objs (datastore/db (apply carmine/mget like-keys))]
+    (into [] (map atom found-objs))))
 (defmethod retrieve :key
   [dispatch-val k]
-  (datastore/db (carmine/get k)))
+  (atom (datastore/db (carmine/get k))))
+(defmethod retrieve :keys
+  [dispatch-val ks]
+  (for [k ks] (retrieve :key k)))
 (defmethod retrieve :lookup-id
   [dispatch-val lookup-key model id]
   (let [k (make-key lookup-key model id)]
-    (datastore/db (carmine/get k))))
+    (atom (datastore/db (carmine/get k)))))
 
 (defn store-pobj
   [pobj k]
