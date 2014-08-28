@@ -9,6 +9,7 @@
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]
                  [ring-cors "0.1.0"]
+                 [ring-mock "0.1.5"]
                  [cheshire "5.3.1"]
                  [environ "0.5.0"]
                  [com.cemerick/drawbridge "0.0.6"]
