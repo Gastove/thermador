@@ -11,10 +11,25 @@
   + *So here's a thing*:
     - I've been calling a model an Atom, but right now they aren't returned as atoms from the DB.
       ...or are they?
+      No. They really aren't. Anything coming out of the DB that I want to be atomic, is gonna
+      have to be put back in an atom.
 
-* TODO
-  - [0/0]
-  - [ ] Figure atoms out. Make this consistent
+* To Do
+  - Before we merge Redis in to master [0/5]
+    - [ ] Make sure tests clean up after themselves properly.
+    - [ ] Do I actually have *anything* like test coverage?
+    - [ ] Integrate Dropbox with Redis
+    - [ ] Make sure that the Page REST API actually returns something that matches what
+      ~frontend~ is expecting.
+    - [ ] ...is there a way to test a REST API?
+      ring.mock, it seems? Give it a go.
+
+  - Prepping to deploy to For Real Heroku [0/1]
+    - [ ]
+  - [1/2]
+    - [X] Figure atoms out. Make this consistent
+      This is.... better. Not great, but better.
+    - [ ] On that note: any item that is an atom needs to deal with that for keymaking.
 
 
 {:status 200, :headers {"Content-Type" "text/html"}, :body "{\"name\":\"test\",\"field\":\"value\"}"}
