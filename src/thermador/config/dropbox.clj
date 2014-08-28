@@ -8,16 +8,19 @@
 (def app-secret (env :dbx-app-secret))
 (def access-token (env :dbx-access-token))
 
-(defn get-dbx-config []
+(defn get-dbx-config
+  []
   (let [name "TheRange/1.0"
         locale (.. (java.util.Locale/getDefault) toString)]
     (DbxRequestConfig. name locale)))
 
-(defn get-dbx-client []
+(defn get-dbx-client
+  []
   (let [config (get-dbx-config)]
     (DbxClient. config access-token)))
 
-(defn load-file-from-dbx [file-path]
+(defn load-file-from-dbx
+  [file-path]
   (let [client (get-dbx-client)]
     (with-open [stream (java.io.ByteArrayOutputStream.)]
       (.getFile client file-path nil stream)
