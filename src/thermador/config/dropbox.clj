@@ -25,3 +25,16 @@
     (with-open [stream (java.io.ByteArrayOutputStream.)]
       (.getFile client file-path nil stream)
       (.toString stream))))
+
+(defn list-folder-contents
+  [path]
+  (let [client (get-dbx-client)]
+    (.getMetadataWithChildren client path)))
+
+(defn list-files-in-folder
+  [path]
+  (let [metadata (list-folder-contents path)
+        listing (.children metadata)]
+    (into [] (for [item listing
+                   :when (.isFile item)]
+               item))))
