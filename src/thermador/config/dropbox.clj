@@ -37,4 +37,4 @@
         listing (.children metadata)]
     (into [] (for [item listing
                    :when (.isFile item)]
-               item))))
+               [(.path item ) (.name item)]))))
