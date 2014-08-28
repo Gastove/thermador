@@ -75,7 +75,9 @@
 (defmethod retrieve :lookup-id
   [dispatch-val lookup-key model id]
   (let [k (make-key lookup-key model id)]
-    (atom (datastore/db (carmine/get k)))))
+    (if-let [datum (datastore/db (carmine/get k))])
+    (atom datum)
+    nil))
 
 (defn store-pobj
   [pobj k]
