@@ -80,6 +80,21 @@
       (atom datum)
       nil)))
 
+(defn delete
+  ([pobjs]
+     (into [] (for [pobj pobjs]
+                (delete pobj :datum-name))))
+  ([pobj lookup-key]
+     (let [raw-pobj @pobj
+           pobj-model (:prototype raw-pobj)
+           pobj-key (make-key lookup-key raw-pobj)
+           pobj-model-key (make-key lookup-key pobj-model)]
+       (if (and
+            (datastore/db (carmine/del pobj-key))
+            (datastore/db (carmine/srem pobj-model-key pobj-key)))
+         true
+         false))))
+
 (defn store-pobj
   [pobj k]
   (datastore/db (carmine/set k pobj)))
