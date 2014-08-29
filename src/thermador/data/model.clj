@@ -16,8 +16,9 @@
   "The root for all the models in the server. Provides a
   redis key prefix and a created-on time... which makes no sense."
   ;; TODO: probs. don't want created-on here. Makes no sense.
-  {:datum-name "Thermador"
-   :created-on (now)})
+  {:datum-name "thermador"
+   :created-on (now)
+   :lookup-key :datum-name})
 
 (defn create-model
   [model-fields & {parent-obj :parent :or {parent-obj Base}}]

@@ -12,7 +12,7 @@
    :created-on (model/now)})
 
 (def -PageModelFields
-  {:datum-name "Page"})
+  {:datum-name "page"})
 
 (def Page (model/create-model -PageModelFields))
 
