@@ -15,22 +15,24 @@
       have to be put back in an atom.
 
 * To Do
-  - Before we merge Redis in to master [0/5]
-    - [ ] Make sure tests clean up after themselves properly.
+  - Before we merge Redis in to master [4/7]
+    - [X] Make sure tests clean up after themselves properly.
     - [ ] Do I actually have *anything* like test coverage?
-    - [ ] Integrate Dropbox with Redis
-    - [ ] Make sure that the Page REST API actually returns something that matches what
+    - [X] Integrate Dropbox with Redis
+    - [X] Make sure that the Page REST API actually returns something that matches what
       ~frontend~ is expecting.
     - [ ] ...is there a way to test a REST API?
       ring.mock, it seems? Give it a go.
+    - [ ] Clean up retrieve to stop passing ~model~. The model of a pobj is it's next-higher prototype.
+    - [X] Need a ~remove~ function. Or delete.
 
   - Prepping to deploy to For Real Heroku [0/1]
-    - [ ]
+    - [ ] Logging?
   - [1/2]
     - [X] Figure atoms out. Make this consistent
       This is.... better. Not great, but better.
     - [ ] On that note: any item that is an atom needs to deal with that for keymaking.
 
-
-{:status 200, :headers {"Content-Type" "text/html"}, :body "{\"name\":\"test\",\"field\":\"value\"}"}
-{:status 200, :headers {"Content-Type" "text/html"}, :body "{\"name\":\"test\",\"field\":\"value\",\"prototype\":{\"name\":\"ancestor\"}}"}
+  - Other/misc/eventually [0/2]
+    - [ ] Perhaps each level of a pobj should *say* what their lookup-key is?
+    - [ ] What the *hell* lein? (Dev deps. I don't get it.)
