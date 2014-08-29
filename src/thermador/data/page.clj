@@ -16,15 +16,17 @@
 
 (def Page (model/create-model -PageModelFields))
 
+(def lookup-key :datum-name)
+
 (defn create-page
   ([fields]
      (model/create Page -PageEntityFields fields))
-  ([name title body & {:keys [datum-name] :or {:datum-name name}}]
+  ([name title body & {:keys [datum-name] :or {datum-name name}}]
      (let [fields {:name name
                    :title title
                    :body body
                    :datum-name datum-name}]
-       (model/create Page -PageEntityFields fields))))
+       (create-page fields))))
 
 ;; (defroutes page-routes
 ;;   (GET "/:id" [id] (rest-api/make-return (model/retrieve :lookup-id :datum-name Page id)))
