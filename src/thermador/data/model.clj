@@ -55,6 +55,7 @@
     (datastore/db (carmine/set db-key pobj))))
 
 ;; this is.... getting big
+;; TODO: Stop passing models. The "model" is the prototype of a pobj
 (defmulti retrieve (fn [dispatch-val & args] dispatch-val))
 (defmethod retrieve :all
   [dispatch-val lookup-key model]
@@ -69,7 +70,9 @@
     (into [] (map atom found-objs))))
 (defmethod retrieve :key
   [dispatch-val k]
-  (atom (datastore/db (carmine/get k))))
+  (if-let [datum (datastore/db (carmine/get k))]
+    (atom datum)
+    nil))
 (defmethod retrieve :keys
   [dispatch-val ks]
   (for [k ks] (retrieve :key k)))
