@@ -87,7 +87,7 @@
   ([pobjs]
      (into [] (for [pobj pobjs]
                 (delete pobj :datum-name))))
-  ([pobj lookup-key]
+  ([pobj lookup-key]                    ; WUGH clean this up jeezus.
      (let [raw-pobj @pobj
            pobj-model (:prototype raw-pobj)
            pobj-key (make-key lookup-key raw-pobj)
