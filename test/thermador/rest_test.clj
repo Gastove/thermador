@@ -1,7 +1,8 @@
 (ns thermador.rest-test
   (:require [clojure.test :refer :all]
             [cheshire.core :refer [generate-string]]
-            [thermador.rest :as rest-api]))
+            [thermador.rest :as rest-api]
+            [ring.mock.request :as mock]))
 
 (def test-pobj
   (atom {:name "test"
