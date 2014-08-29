@@ -58,10 +58,13 @@
   [k v]
   (datastore/db (carmine/set k v)))
 
+;; TODO: Remove keys from set!
 (defn redis-cleanup-test-data
   []
   (let [redis-keys (datastore/db (carmine/keys "*ThermadorTest*"))]
-    (for [k redis-keys] (datastore/db (carmine/del k)))))
+    (doseq [k redis-keys]
+      (datastore/db (carmine/del k))
+      (datastore/db (carmine/srem "thermador:page" k)))))
 
 (deftest redis-get-set-and-clear
   (let [k (make-key)
@@ -84,14 +87,17 @@
         "The set of page keys should contain the single page key")
     (is (all-in-set? pages-keys db-set-keys)
         "The set of page keys should contain the five generated page keys")
-    (is (= @page (deref (model/retrieve :key page-key))) "Do we get the right page back?")
-    (is (= (set (map deref pages)) (set (map deref (model/retrieve :keys pages-keys))))
+    (is (= @page (deref (model/retrieve :key page-key)))
+        "Do we get the right page back?")
+    (is (= (set (map deref pages))
+           (set (map deref (model/retrieve :keys pages-keys))))
         "Can we retrieve many things at once?")
-    (redis-cleanup-test-data)))
+    (is (and (true? (model/delete page :datum-name))
+             (nil? (model/retrieve :key page-key)))
+        "Does deleting a single page report success, and does it work?")
+    (is (true? (reduce #(and %1 %2) (model/delete pages)))
+        "Does deleting many pages work?")
+    (redis-cleanup-test-data))
+  ;; TODO: Around here, test model/retrieve :lookup-id
 
-;; (defn test-ns-hook []
-;;   (redis-connection)
-;;   (redis-add-test-data)
-;;   (redis-get)
-;;   (redis-cleanup-test-data)
-;;   )
+  )
