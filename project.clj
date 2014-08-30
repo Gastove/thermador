@@ -9,7 +9,6 @@
                  [ring/ring-devel "1.1.0"]
                  [ring-basic-authentication "1.0.1"]
                  [ring-cors "0.1.0"]
-                 [cheshire "5.3.1"]
                  [environ "0.5.0"]
                  [com.cemerick/drawbridge "0.0.6"]
                  [com.dropbox.core/dropbox-core-sdk "1.7.4"
@@ -18,11 +17,15 @@
                  [com.taoensso/timbre "3.2.1"]
                  [joda-time/joda-time "2.4"]]
   :min-lein-version "2.0.0"
+  :ring {:handler thermador.web/application-routes
+         :init thermador.config.init/init}
   :plugins [[lein-environ "0.5.0"]
             [lein-ring "0.8.11"]]
-  :ring {:handler thermador.web/application-routes}
   :profiles {:production {:env {:production true
                                 :timbre-log-level :info}}
              :dev {:env {:production false
-                         :timbre-log-level :debug}
-                   :dependencies [[ring-mock "0.1.5"]]}})
+                         :timbre-log-level :debug
+                         :port 5000}
+                   :dependencies [[cheshire "5.3.1"]
+                                  [ring-mock "0.1.5"]]}}
+  )
