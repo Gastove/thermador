@@ -13,13 +13,7 @@
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
             [taoensso.timbre :as log]
-            [thermador.config.logging-config :refer [configure-logging]]
-            [thermador.data.migration :as migration]
-            [thermador.rest :as rest-api]
-            ))
-
-(configure-logging)
-(migration/sync-redis)
+            [thermador.rest :as rest-api]))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
