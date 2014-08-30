@@ -10,6 +10,7 @@
                  [ring-basic-authentication "1.0.1"]
                  [ring-cors "0.1.0"]
                  [environ "0.5.0"]
+                 [cheshire "5.3.1"]
                  [com.cemerick/drawbridge "0.0.6"]
                  [com.dropbox.core/dropbox-core-sdk "1.7.4"
                   :exclusions [com.fasterxml.jackson.core/jackson-core]]
@@ -26,6 +27,5 @@
              :dev {:env {:production false
                          :timbre-log-level :debug
                          :port 5000}
-                   :dependencies [[cheshire "5.3.1"]
-                                  [ring-mock "0.1.5"]]}}
+                   :dependencies [[ring-mock "0.1.5"]]}}
   )
