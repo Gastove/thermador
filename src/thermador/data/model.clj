@@ -36,8 +36,8 @@
   (let [base (proto/beget model)
         obj-fields (merge default-entity-fields entity-fields)
         new-pobj (proto/extend base obj-fields)
-        pobj-key (make-key :datum-name new-pobj)
-        parent-key (make-key :datum-name model)]
+        pobj-key (make-key new-pobj)
+        parent-key (make-key model)]
     (store-pobj new-pobj pobj-key)
     (store-key parent-key pobj-key)
     (atom new-pobj)))
@@ -59,7 +59,7 @@
 (defmulti retrieve (fn [dispatch-val & args] dispatch-val))
 (defmethod retrieve :all
   [dispatch-val lookup-key model]
-  (let [set-key (make-key lookup-key model)
+  (let [set-key (make-key model)
         all-keys (datastore/db (carmine/smembers set-key))
         models (datastore/db (apply carmine/mget all-keys))]
     (into [] (map atom models))))
@@ -73,7 +73,7 @@
   (for [k ks] (retrieve :key k)))
 (defmethod retrieve :lookup-id
   [dispatch-val lookup-key model id]
-  (let [k (make-key lookup-key model id)]
+  (let [k (make-key model id)]
     (if-let [datum (datastore/db (carmine/get k))]
       (atom datum)
       nil)))
@@ -85,8 +85,8 @@
   ([pobj lookup-key]                    ; WUGH clean this up jeezus.
      (let [raw-pobj @pobj
            pobj-model (:prototype raw-pobj)
-           pobj-key (make-key lookup-key raw-pobj)
-           pobj-model-key (make-key lookup-key pobj-model)]
+           pobj-key (make-key raw-pobj)
+           pobj-model-key (make-key pobj-model)]
        (if (and
             (datastore/db (carmine/del pobj-key))
             (datastore/db (carmine/srem pobj-model-key pobj-key)))
@@ -112,19 +112,29 @@
             (cond
              (= k lookup-key) (conj acc v)
              (and (not= k lookup-key) (not= k :prototype)) acc
-             :else (into acc (reduce woah [] v))))]
+             :else (conj acc (reduce woah [] v))))]
     (reduce woah [] pobj)))
+
+(defn flatten-nested-vector
+  [nested-vec]
+  (let [[a b] nested-vec]
+    (if (and a b)
+      (if (vector? a)
+        (conj (flatten-nested-vector a) b)
+        (conj (flatten-nested-vector b) a))
+      (if a [a] [b]))))
 
 (defn make-key
   ([pobj]
      (let [model (:prototype pobj)
-           lookup-key (:lookup-key pobj)
-           key-parts (key-chain lookup-key pobj)]
+           key-parts (key-chain :datum-name pobj)
+           unpacked-parts (flatten-nested-vector key-parts)]
+       (datastore/assemble-redis-key unpacked-parts)))
+  ([pobj id]
+     (let [key-parts-base (key-chain :datum-name pobj)
+           unpacked-parts (flatten-nested-vector key-parts-base)
+           key-parts (conj unpacked-parts id)]
        (datastore/assemble-redis-key key-parts)))
-  ([lookup-key pobj]
-     (let [key-parts (key-chain lookup-key pobj)]
-       (datastore/assemble-redis-key key-parts)))
-  ([lookup-key model entity-id]
-     (let [model-parts (key-chain lookup-key model)
-           key-parts (conj model-parts entity-id)]
-       (datastore/assemble-redis-key key-parts))))
+  ([lookup-key model id]
+     "Tryin real hard to depricate this one"
+     (make-key model id)))

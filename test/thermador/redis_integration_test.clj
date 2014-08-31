@@ -31,11 +31,10 @@
 (deftest create-and-destroy-pages
   (log/debug "Testing ability to create and destroy pages in Redis.")
   (let [page (fake/make-page)
-        key-fn (partial model/make-key :datum-name)
-        page-key (key-fn @page)
-        page-model-key (key-fn page/Page)
+        page-key (model/make-key @page)
+        page-model-key (model/make-key page/Page)
         pages (take 5 (repeatedly fake/make-page))
-        pages-keys (into [] (map #(key-fn (deref %)) pages))
+        pages-keys (into [] (map #(model/make-key (deref %)) pages))
         db-set-keys (datastore/db (carmine/smembers page-model-key))]
     (is (not (nil? (some #{page-key} db-set-keys)))
         "The set of page keys should contain the single page key")
