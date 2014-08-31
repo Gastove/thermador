@@ -26,6 +26,7 @@
                                 :timbre-log-level :info}}
              :dev {:env {:production false
                          :timbre-log-level :debug
-                         :port 5000}
+                         :port 5000
+                         :session-secret "ABRACADABRACADAB"}
                    :dependencies [[ring-mock "0.1.5"]]}}
   )
