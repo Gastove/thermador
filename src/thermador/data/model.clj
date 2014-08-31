@@ -1,11 +1,12 @@
 (ns thermador.data.model
   "An implementation of a data model. Read and write the model to db; modify
   and create models."
-  (:require [thermador.config.database :as datastore]
-            [thermador.data.proto :as proto]
+  (:require [clojure.string :as string]
             [taoensso.carmine :as carmine]
-            [clojure.string :as string])
-  (:import [org.joda.time DateTime DateTimeZone]))
+            [taoensso.timbre :as log]
+            [thermador.config.database :as datastore]
+            [thermador.data.proto :as proto])
+  (:import (org.joda.time DateTime DateTimeZone)))
 
 (defn now
   "Utility function for current time in millis."
@@ -62,21 +63,33 @@
   (let [set-key (make-key model)
         all-keys (datastore/db (carmine/smembers set-key))
         models (datastore/db (apply carmine/mget all-keys))]
-    (into [] (map atom models))))
+    (log/info "Retrieving all models from" set-key)
+    (if models
+      (do
+        (log/debug "Found:" all-keys)
+        (into [] (map atom models)))
+     (do
+       (log/debug "Nothing found in" set-key)
+       nil))))
 (defmethod retrieve :key
   [dispatch-val k]
+  (log/info "Retrieving:" k)
   (if-let [datum (datastore/db (carmine/get k))]
     (atom datum)
     nil))
 (defmethod retrieve :keys
   [dispatch-val ks]
+  (log/info "Retrieving:" ks)
   (for [k ks] (retrieve :key k)))
 (defmethod retrieve :lookup-id
   [dispatch-val lookup-key model id]
+  (log/info "Looking for: " id " in" (make-key model))
   (let [k (make-key model id)]
     (if-let [datum (datastore/db (carmine/get k))]
       (atom datum)
-      nil)))
+      (do
+        (log/info id "not found.")
+        nil))))
 
 (defn delete
   ([pobjs]
