@@ -4,8 +4,9 @@
 
 (def DB (or (env :database-url) "postgres://localhost:5432/thermador"))
 
-(def conn-props {:pool {}
-                 :spec {:host (or (env :rediscloud-url) "localhost") :port 6379}})
+(def conn-props (if (env :production)
+                  {:pool {} :spec {:uri (env :rediscloud-url)}}
+                  {:pool {} :spec {:host "localhost" :port 6379}}))
 
 (defmacro db
   "Do something in the context of the configured DB"
