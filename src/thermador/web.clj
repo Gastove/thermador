@@ -12,9 +12,8 @@
             [ring.middleware.basic-authentication :as basic]
             [cemerick.drawbridge :as drawbridge]
             [environ.core :refer [env]]
-            [thermador.home :as home]
-            [thermador.config.migration :as migration]
-            ))
+            [taoensso.timbre :as log]
+            [thermador.rest :as rest-api]))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
@@ -25,9 +24,10 @@
       (basic/wrap-basic-authentication authenticated?)))
 
 (defroutes application-routes
-  (context "/api/home" [] home/routes)
+  (context "/api" [] rest-api/rest-routes)
   (ANY "/repl" {:as req}
        (drawbridge req))
+  (ANY "/log-test" [] (log/info "Boop!"))
   (GET "/" []
        {:status 200
         :headers {"Content-Type" "text/plain"}
@@ -35,10 +35,10 @@
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 
-(def application (-> (site application-routes)
-                     reload/wrap-reload
-                     (cors/wrap-cors :access-control-allow-origin #".+")
-                     ))
+(def application
+  (-> (site application-routes)
+      reload/wrap-reload
+      (cors/wrap-cors :access-control-allow-origin #".+")))
 
 (defn wrap-error-page [handler]
   (fn [req]
@@ -49,9 +49,7 @@
             :body (slurp (io/resource "500.html"))}))))
 
 (defn -main [& [port]]
-  (migration/migrate-known-models)
   (let [port (Integer. (or port (env :port) 5000))
-        ;; TODO: heroku config:add SESSION_SECRET=$RANDOM_16_CHARS
         store (cookie/cookie-store {:key (env :session-secret)})]
     (jetty/run-jetty (-> application
                          ((if (env :production)
