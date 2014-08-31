@@ -1,6 +1,8 @@
 (ns thermador.rest
-  (:require [cheshire.core :as cheshire :refer [generate-string]]
-            [compojure.core :refer [defroutes GET]]
+  (:require [cheshire.core :refer [generate-string]]
+            [clojure.java.io :as io]
+            [compojure.core :refer [ANY GET defroutes]]
+            [compojure.route :as route]
             [thermador.data.model :as model]
             [thermador.data.page :as page]))
 
