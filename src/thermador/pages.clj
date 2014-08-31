@@ -1,7 +1,7 @@
 (ns thermador.pages
-  (:require [compojure.core  :refer [defroutes ALL GET]]
-            [clojure.java.io :refer [resources]]
-            [cheshir.core    :refer [generate-string]]
+  (:require [compojure.core  :refer [defroutes ANY GET]]
+            [clojure.java.io :refer [resource]]
+            [cheshire.core    :refer [generate-string]]
             ))
 
 (def resource-map {:home  ["md", "markdown"]
@@ -17,9 +17,10 @@
 (defn load-file [file-path]
   (slurp (resource file-path)))
 
-(defn make-return [& :keys {:id :text}]
-  (generate-string {id :id text :text}))
+;; (defn make-return
+;;   [& :keys [id text]]
+;;   (generate-string {:id id :text text}))
 
 (defroutes routes
-  (ALL "/" [])
-  (GET "/:id" [:id]))
+  (ANY "/" [])
+  (GET "/:id" [id]))
