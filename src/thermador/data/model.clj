@@ -59,7 +59,7 @@
 ;; TODO: Stop passing models. The "model" is the prototype of a pobj
 (defmulti retrieve (fn [dispatch-val & args] dispatch-val))
 (defmethod retrieve :all
-  [dispatch-val lookup-key model]
+  [_ lookup-key model]
   (let [set-key (make-key model)
         all-keys (datastore/db (carmine/smembers set-key))
         models (datastore/db (apply carmine/mget all-keys))]
@@ -72,17 +72,17 @@
        (log/debug "Nothing found in" set-key)
        nil))))
 (defmethod retrieve :key
-  [dispatch-val k]
+  [_ k]
   (log/info "Retrieving:" k)
   (if-let [datum (datastore/db (carmine/get k))]
     (atom datum)
     nil))
 (defmethod retrieve :keys
-  [dispatch-val ks]
+  [_ ks]
   (log/info "Retrieving:" ks)
   (for [k ks] (retrieve :key k)))
 (defmethod retrieve :lookup-id
-  [dispatch-val lookup-key model id]
+  [_ lookup-key model id]
   (log/info "Looking for: " id " in" (make-key model))
   (let [k (make-key model id)]
     (if-let [datum (datastore/db (carmine/get k))]
