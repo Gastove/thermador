@@ -10,3 +10,4 @@ profiles.clj
 /checkouts
 /.env
 /target
+/heroku_repl.sh
