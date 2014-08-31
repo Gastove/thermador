@@ -18,6 +18,7 @@
 ;; Data spoofing functions.
 
 (deftest redis-get-set-and-clear
+  (log/debug "Testing Redis getting/setting.")
   (let [k (fake/make-key)
         v (fake/make-val)
         response (datastore/db (carmine/set k v))]
@@ -27,6 +28,7 @@
     (is (nil? (datastore/db (carmine/get k)))) "Is the value really deleted?"))
 
 (deftest create-and-destroy-pages
+  (log/debug "Testing ability to create and destroy pages in Redis.")
   (let [page (fake/make-page)
         key-fn (partial model/make-key :datum-name)
         page-key (key-fn @page)
