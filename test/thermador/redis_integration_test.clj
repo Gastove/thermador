@@ -1,11 +1,12 @@
 (ns thermador.redis-integration-test
   (:require [clojure.test :refer :all]
             [taoensso.carmine :as carmine]
+            [taoensso.timbre :as log]
             [thermador.config.database :as datastore]
             [thermador.data-faking :as fake]
-            [thermador.redis-test-utils :as redis-utils]
             [thermador.data.model :as model]
-            [thermador.data.page :as page]))
+            [thermador.data.page :as page]
+            [thermador.redis-test-utils :as redis-utils]))
 
 (defn all-in-set?
   "Check if every element in the given seq is present
