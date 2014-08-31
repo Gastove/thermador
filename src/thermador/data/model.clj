@@ -63,11 +63,6 @@
         all-keys (datastore/db (carmine/smembers set-key))
         models (datastore/db (apply carmine/mget all-keys))]
     (into [] (map atom models))))
-(defmethod retrieve :all-like
-  [dispatch-val key-pattern]
-  (let [like-keys (datastore/db (carmine/keys key-pattern))
-        found-objs (datastore/db (apply carmine/mget like-keys))]
-    (into [] (map atom found-objs))))
 (defmethod retrieve :key
   [dispatch-val k]
   (if-let [datum (datastore/db (carmine/get k))]
