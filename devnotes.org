@@ -15,7 +15,24 @@
       have to be put back in an atom.
 
 * To Do
-  - Before we merge Redis in to master [7/8]
+
+** Next steps
+   - Nice to Haves [0/3]
+     - [ ] Make sync-redis do a more sensical job -- new version in dbx should overwrite.
+     - [ ] Main method for migration
+     - [ ] Heroku Scheduler
+
+   - Good to do [0/2]
+     - [ ] Clean up CORS, make sure it's sensible for dev vs prod.
+       Maybe move CORS stuff into its own NS in config?
+       - [ ] Update ring.cors to 0.1.4
+     - [ ] Refactoring pass. Delete cruft. Tidy oop.
+
+   - Much harder [0/1]
+     - [ ] Make prototype inheritance into ~defrecords~. /Woah/.
+
+** Redis Branch, closed <2014-08-31 Sun>
+  - Before we merge Redis in to master [8/8]
     - [X] Make sure tests clean up after themselves properly.
     - [X] Do I actually have *anything* like test coverage?
     - [X] Integrate Dropbox with Redis
@@ -25,7 +42,7 @@
       ring.mock, it seems? Give it a go.
     - [X] Clean up retrieve to stop passing ~model~. The model of a pobj is it's next-higher prototype.
     - [X] Need a ~remove~ function. Or delete.
-    - [ ] Logging pass
+    - [X] Logging pass
 
   - Prepping to deploy to For Real Heroku [1/1]
     - [X] Logging?
