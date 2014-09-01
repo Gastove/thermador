@@ -37,7 +37,7 @@
 (defmethod api-result "page"
   [resource & args]
   (if (empty? args)
-    (let [models (model/retrieve :all :datum-name page/Page)
+    (let [models (model/retrieve :all page/Page)
           returnable-models (into [] (map page/make-rest-return models))]
       (make-return returnable-models))
     (case (first args)
