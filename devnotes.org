@@ -22,14 +22,15 @@
      - [ ] Main method for migration
      - [ ] Heroku Scheduler
 
-   - Good to do [0/2]
+   - Good to do [1/2]
      - [ ] Clean up CORS, make sure it's sensible for dev vs prod.
        Maybe move CORS stuff into its own NS in config?
        - [ ] Update ring.cors to 0.1.4
-     - [ ] Refactoring pass. Delete cruft. Tidy oop.
+     - [X] Refactoring pass. Delete cruft. Tidy oop.
 
    - Much harder [0/1]
-     - [ ] Make prototype inheritance into ~defrecords~. /Woah/.
+     - [ ] Make prototype inheritance into ~defrecords~. /Woah/. Or not? Maybe just better type dispatch
+       for multimethods.
 
 ** Redis Branch, closed <2014-08-31 Sun>
   - Before we merge Redis in to master [8/8]
