@@ -16,8 +16,6 @@
         mapped-preds (map s check-seq)]
     (reduce #(and (not (nil? %1)) (not (nil? %2))) mapped-preds)))
 
-;; Data spoofing functions.
-
 (deftest redis-get-set-and-clear
   (log/debug "Testing Redis getting/setting.")
   (let [k (fake/make-key)
@@ -50,7 +48,4 @@
         "Does deleting a single page report success, and does it work?")
     (is (true? (reduce #(and %1 %2) (model/delete pages)))
         "Does deleting many pages work?")
-    (redis-utils/cleanup-test-data))
-  ;; TODO: Around here, test model/retrieve :lookup-id
-
-  )
+    (redis-utils/cleanup-test-data)))
