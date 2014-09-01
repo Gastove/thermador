@@ -18,7 +18,11 @@
         :let [candidate-pairs (dbx/list-files-in-folder (:path data))]]
     (doseq [[file-name path] candidate-pairs
             :let [id (make-id-from-file-name file-name)
-                  {:keys [lookup-key create-fn]} data]
-            :when (nil? (model/retrieve :lookup-id lookup-key sync-model id))]
-      (do (log/info "Found new model: " sync-model id)
-          (create-fn id (dbx/load-file-from-dbx path))))))
+                  {:keys [lookup-key create-fn]} data]]
+      (if (nil? (model/retrieve :lookup-id lookup-key sync-model id))
+        (do (log/info "Found new model:" sync-model id)
+            (create-fn id (dbx/load-file-from-dbx path)))
+        (do (log/info "Updating existing model:" sync-model id)
+            (log/info "NOT IMPLEMENTED.")
+            ;;; TODO Update this function.
+            )))))
