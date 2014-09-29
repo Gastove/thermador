@@ -57,3 +57,7 @@
       NOPE. Fuck that noise. Just agree that :datum-name is the name and call it good.
     - [X] What the *hell* lein? (Dev deps. I don't get it.)
       Files a bug report with technomancy. Will see.
+
+* Projects
+
+** Dykstra's Algorithm
