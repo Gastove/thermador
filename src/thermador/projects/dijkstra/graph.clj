@@ -1,4 +1,4 @@
-(ns thermador.projects.dykstra
+(ns thermador.projects.dijkstra.graph
   (require [clojure.core.matrix :as mtx]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -6,7 +6,7 @@
 ;; Representing a map:
 ;; Each cell will have one of the following statuses:
 ;; :v -- visited
-;; :u -- unvisited
+;; :u -- un-visited
 ;; :b -- blocked
 ;; :c -- current
 ;; :s -- starting point
@@ -15,11 +15,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (def test-matrix
-  [[:s :e :e :e :e]
-   [:e :e :e :e :e]
-   [:e :e :e :e :e]
-   [:e :e :e :e :e]
-   [:e :e :e :e :g]])
+  [[:s :u :u :u :u]
+   [:u :u :u :u :u]
+   [:u :u :u :u :u]
+   [:u :u :u :u :u]
+   [:u :u :u :u :g]])
 
 
 (defn find-neighbords
@@ -36,6 +36,26 @@
                      [x1 y1])]
     (filter #(not= % p) candidates)))
 
-(defn value-of-point
+(defn value-of-node
   [m p]
   (apply mtx/mget m p))
+
+(defn get-candidate-values
+  [m candidates]
+  (map #(value-of-node m %) candidates))
+
+(defn filter-by-val
+  [m nodes v]
+  (filter #(= (value-of-node m %) v) nodes))
+
+(defn remove-by-val
+  [m nodes v]
+  (filter #(not= (value-of-node m %) v) nodes))
+
+(defn get-unvisited
+  [m nodes]
+  (filter-by-val m nodes :u))
+
+(defn remove-start
+  [m nodes]
+  )
