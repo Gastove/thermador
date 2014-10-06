@@ -14,7 +14,7 @@
 
 (defn update-page
   [lookup-key model id markdown]
-  (let [pobj (model/retrieve :lookup-id lookup-key sync-model id)
+  (let [pobj (model/retrieve :lookup-id lookup-key model id)
         f #(assoc % :body markdown)]
     (model/transform pobj f)))
 
