@@ -20,16 +20,16 @@
             :let [id (make-id-from-file-name file-name)
                   {:keys [lookup-key create-fn update-fn]} data
                   markdown (dbx/load-file-from-dbx path)]]
-      (if-let [pobj (model/retrieve :lookup-id lookup-key sync-model id)]
-        (do (log/info "Updating existing model:" sync-model id)
-            (update-fn pobj markdown))
-        (do (log/info "Found new model:" sync-model id)
-            (create-fn id markdown)))
-      ;; (if (nil? (model/retrieve :lookup-id lookup-key sync-model id))
-      ;;   (do (log/info "Found new model:" sync-model id)
-      ;;       (create-fn id (dbx/load-file-from-dbx path)))
+      ;; (if-let [pobj (model/retrieve :lookup-id lookup-key sync-model id)]
       ;;   (do (log/info "Updating existing model:" sync-model id)
-      ;;       (log/info "NOT IMPLEMENTED.")
-      ;;       (update-fn lookup-key sync-model id (dbx/load-file-from-dbx path))
-      ;;       ))
+      ;;       (update-fn pobj markdown))
+      ;;   (do (log/info "Found new model:" sync-model id)
+      ;;       (create-fn id markdown)))
+      (if (nil? (model/retrieve :lookup-id lookup-key sync-model id))
+        (do (log/info "Found new model:" sync-model id)
+            (create-fn id markdown))
+        (do (log/info "Updating existing model:" sync-model id)
+            (log/info "NOT IMPLEMENTED.")
+            (update-fn lookup-key sync-model id markdown)
+            ))
       )))
