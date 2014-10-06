@@ -38,7 +38,7 @@
 (def application
   (-> (site application-routes)
       reload/wrap-reload
-      (cors/wrap-cors :access-control-allow-origin #".+"
+      (cors/wrap-cors :access-control-allow-origin #"http://thermador-frontend.herokuapp.com"
                       :access-control-allow-methods [:get])))
 
 (defn wrap-error-page [handler]
