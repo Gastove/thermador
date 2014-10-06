@@ -13,8 +13,9 @@
     (page/create-page name title markdown)))
 
 (defn update-page
-  [pobj markdown]
-  (let [f #(assoc % :body markdown)]
+  [lookup-key model id markdown]
+  (let [pobj (model/retrieve :lookup-id lookup-key sync-model id)
+        f #(assoc % :body markdown)]
     (model/transform pobj f)))
 
 (def page-migration
