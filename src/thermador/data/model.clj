@@ -147,14 +147,18 @@
         (conj (flatten-nested-vector b) a))
       (if a [a] [b]))))
 
+;; TODO: Use of atoms vs. maps is *real* inconsistent, and increasingly
+;; problematic. FFS, figure it out and fix it.
 (defn make-key
   ([pobj]
-     (let [model (:prototype pobj)
-           key-parts (key-chain :datum-name pobj)
+     (let [pobj-data (if (instance? clojure.lang.Atom pobj) @pobj pobj)
+           model (:prototype pobj-data)
+           key-parts (key-chain :datum-name pobj-data)
            unpacked-parts (flatten-nested-vector key-parts)]
        (datastore/assemble-redis-key unpacked-parts)))
   ([pobj id]
-     (let [key-parts-base (key-chain :datum-name pobj)
+     (let [pobj-data (if (instance? clojure.lang.Atom pobj) @pobj pobj)
+           key-parts-base (key-chain :datum-name pobj-data)
            unpacked-parts (flatten-nested-vector key-parts-base)
            key-parts (conj unpacked-parts id)]
        (datastore/assemble-redis-key key-parts)))
