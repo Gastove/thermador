@@ -38,8 +38,7 @@
 (def application
   (-> (site application-routes)
       reload/wrap-reload
-      (cors/wrap-cors :access-control-allow-origin #".*"
-                      :access-control-allow-methods [:get])))
+      (cors/wrap-cors :access-control-allow-origin #".*")))
 
 (defn wrap-error-page [handler]
   (fn [req]
