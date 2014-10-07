@@ -11,3 +11,4 @@ profiles.clj
 /.env
 /target
 /heroku_repl.sh
+/connect-remote-repl.sh
