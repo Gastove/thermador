@@ -50,10 +50,11 @@
   correct; that work will *eventually* happen here. Probably.
   "
   [pobj f]
-  (let [key-parts (key-chain :datum-name pobj)
-        db-key (datastore/assemble-redis-key key-parts)]
+  (let [
+        ;;key-parts (key-chain :datum-name pobj)
+        db-key (make-key pobj)]
     (swap! pobj f)
-    (datastore/db (carmine/set db-key pobj))))
+    (datastore/db (carmine/set db-key @pobj))))
 
 ;; this is.... getting big
 ;; TODO: Stop passing models. The "model" is the prototype of a pobj
