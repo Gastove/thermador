@@ -93,7 +93,7 @@
   (for [k ks] (retrieve :key k)))
 (defmethod retrieve :lookup-id
   [_ lookup-key model id]
-  (log/info "Looking for: " id " in" (make-key model))
+  (log/debug "Looking for:" id "in" (make-key model))
   (let [k (make-key model id)]
     (if-let [datum (datastore/db (carmine/get k))]
       (atom datum)
