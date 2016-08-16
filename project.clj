@@ -1,7 +1,7 @@
 (defproject thermador "0.1.0"
   :description "Personal Server and Projects"
   :url "http://thermador.herokuapp.com"
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/java.jdbc "0.3.3"]
                  [postgresql "9.3-1101.jdbc4"]
                  [compojure "1.1.1"]
