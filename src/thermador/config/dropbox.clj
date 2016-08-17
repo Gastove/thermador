@@ -1,6 +1,7 @@
 (ns thermador.config.dropbox
   (:require [environ.core :refer [env]])
-  (:import [com.dropbox.core DbxRequestConfig DbxClient]
+  (:import [com.dropbox.core DbxRequestConfig]
+           [com.dropbox.core.v2 DbxClientV2]
            [java.util.Locale]
            [java.io.ByteArrayOutputStream]))
 
@@ -10,26 +11,35 @@
 
 (defn get-dbx-config
   []
-  (let [name "TheRange/1.0"
+  (let [name "Thermador/1.0"
         locale (.. (java.util.Locale/getDefault) toString)]
     (DbxRequestConfig. name locale)))
 
 (defn get-dbx-client
   []
   (let [config (get-dbx-config)]
-    (DbxClient. config access-token)))
+    (DbxClientV2. config access-token)))
+
+(defn get-dbx-file-client
+  "The `files' client is what actually provides file access methods."
+  [client]
+  (.files client))
 
 (defn load-file-from-dbx
   [file-path]
-  (let [client (get-dbx-client)]
-    (with-open [stream (java.io.ByteArrayOutputStream.)]
-      (.getFile client file-path nil stream)
-      (.toString stream))))
+  (let [client (get-dbx-client)
+        file-client (get-dbx-file-client client)
+        download-client (.download file-client file-path)]
+    (with-open [stream (.getInputStream download-client)]
+      (slurp stream))))
 
 (defn list-folder-contents
   [path]
-  (let [client (get-dbx-client)]
-    (.getMetadataWithChildren client path)))
+  (let [client (get-dbx-client)
+        file-client (get-dbx-file-client client)
+        contents (.listFolder file-client path)]
+    (for [metadata (.getEntries contents)]
+      [(.getName metadata) (.getPathLower metadata)])))
 
 (defn list-files-in-folder
   [path]
