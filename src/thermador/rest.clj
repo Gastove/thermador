@@ -4,13 +4,14 @@
             [compojure.core :refer [ANY GET defroutes]]
             [compojure.route :as route]
             [thermador.data.model :as model]
-            [thermador.data.page :as page]))
+            [thermador.data.page :as page]
+            [taoensso.timbre :as log]))
 
 (defmulti make-return
   (fn [d]
     (cond
-     (vector? d) :many
-     (map? d) :single)))
+      (vector? d) :many
+      (map? d) :single)))
 (defmethod make-return :single
   [ret-obj]
   (let [body (generate-string ret-obj)
@@ -44,7 +45,11 @@
       "get" (let [id (second args)
                   pobj (model/retrieve :lookup-id :datum-name page/Page id)
                   ret-obj (if pobj (page/make-rest-return pobj) nil)]
-                (make-return ret-obj)))))
+              (make-return ret-obj))
+      "list" (let [models (model/retrieve :all page/Page)
+                   names (into [] (map #(:name @%) models))]
+               (make-return names)))))
+
 (defmethod api-result :default
   [pobj]
   {:status 404
@@ -52,6 +57,7 @@
    :body (slurp (io/resource "404.html"))})
 
 (defroutes rest-routes
+  (GET "/:resource/list" [resource] (api-result resource "list"))
   (GET "/:resource/:id" [resource id] (api-result resource "get" id))
   (GET "/:resource" [resource] (api-result resource))
   (ANY "*" [] (route/not-found (slurp (io/resource "404.html")))))
