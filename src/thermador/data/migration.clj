@@ -16,7 +16,7 @@
   (log/info "Syncing Redis with Dropbox for known models.")
   (doall
    (for [[sync-model data] sync-map
-         :let [candidate-pairs (dbx/list-files-in-folder (:path data))]]
+         :let [candidate-pairs (dbx/list-folder-contents (:path data))]]
      (doseq [[file-name path] candidate-pairs
              :let [id (make-id-from-file-name file-name)
                    {:keys [lookup-key create-fn update-fn]} data

@@ -1,7 +1,7 @@
 (defproject thermador "0.1.0"
   :description "Personal Server and Projects"
   :url "http://thermador.herokuapp.com"
-  :dependencies [[org.clojure/clojure "1.6.0"]
+  :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/java.jdbc "0.3.3"]
                  [postgresql "9.3-1101.jdbc4"]
                  [compojure "1.1.1"]
@@ -12,7 +12,7 @@
                  [environ "0.5.0"]
                  [cheshire "5.3.1"]
                  [com.cemerick/drawbridge "0.0.6"]
-                 [com.dropbox.core/dropbox-core-sdk "1.7.4"
+                 [com.dropbox.core/dropbox-core-sdk "2.1.1"
                   :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [com.taoensso/carmine "2.6.2"]
                  [com.taoensso/timbre "3.2.1"]
