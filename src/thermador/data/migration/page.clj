@@ -1,11 +1,19 @@
 (ns thermador.data.migration.page
-  (:require [thermador.data.page :as page]
-            [thermador.data.model :as model]
-            [clojure.string :as string]))
+  (:require [clojure.string :as str]
+            [thermador.data
+             [model :as model]
+             [page :as page]]))
 
 (defn make-title-from-md
   [md]
-  (string/trim (second (re-find #"([\w !?]+)" md))))
+  (let [words (-> md
+                  (str/split #"\.")
+                  (first)
+                  (str/split #"_"))]
+    (->> words
+         (map str/capitalize)
+         (interpose " ")
+         (apply str))))
 
 (defn create-page-from-markdown-text
   [name markdown]
