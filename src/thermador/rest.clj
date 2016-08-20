@@ -47,7 +47,7 @@
                   ret-obj (if pobj (page/make-rest-return pobj) nil)]
               (make-return ret-obj))
       "list" (let [models (model/retrieve :all page/Page)
-                   names (into [] (map #(:name @%) models))]
+                   names (into [] (map #(:title @%) models))]
                (make-return names)))))
 
 (defmethod api-result :default
