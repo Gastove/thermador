@@ -1,5 +1,6 @@
 (ns thermador.config.dropbox
-  (:require [environ.core :refer [env]])
+  (:require [environ.core :refer [env]]
+            [clojure.string :as str])
   (:import [com.dropbox.core DbxRequestConfig]
            [com.dropbox.core.v2 DbxClientV2]
            [java.util.Locale]
@@ -39,6 +40,8 @@
         file-client (get-dbx-file-client client)
         contents (.listFolder file-client path)]
     (for [metadata (.getEntries contents)]
+      ;; Sometimes hidden files get in there, briefly. Do *not* add them to the DB!
+      :when (not (-> (.getName metadata) (str/starts-with? ".")))
       [(.getName metadata) (.getPathLower metadata)])))
 
 (defn list-files-in-folder
