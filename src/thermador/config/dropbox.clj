@@ -39,9 +39,9 @@
   (let [client (get-dbx-client)
         file-client (get-dbx-file-client client)
         contents (.listFolder file-client path)]
-    (for [metadata (.getEntries contents)]
-      ;; Sometimes hidden files get in there, briefly. Do *not* add them to the DB!
-      :when (not (-> (.getName metadata) (str/starts-with? ".")))
+    (for [metadata (.getEntries contents)
+          ;; Sometimes hidden files get in there, briefly. Do *not* add them to the DB!
+          :when (not (-> (.getName metadata) (str/starts-with? ".")))]
       [(.getName metadata) (.getPathLower metadata)])))
 
 (defn list-files-in-folder
