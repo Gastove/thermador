@@ -4,7 +4,7 @@
              [model :as model]
              [page :as page]]))
 
-(defn make-title-from-md
+(defn make-title-from-md-file-name
   [md]
   (let [words (-> md
                   (str/split #"\.")
@@ -17,7 +17,7 @@
 
 (defn create-page-from-markdown-text
   [name markdown]
-  (let [title (make-title-from-md markdown)]
+  (let [title (make-title-from-md-file-name name)]
     (page/create-page name title markdown)))
 
 (defn update-page
