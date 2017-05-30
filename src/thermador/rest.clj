@@ -57,7 +57,7 @@
    :body (slurp (io/resource "404.html"))})
 
 (defroutes rest-routes
-  (GET "/:resource/list" [resource] (api-result resource "list"))
+  (GET "/:resource/-list" [resource] (api-result resource "list"))
   (GET "/:resource/:id" [resource id] (api-result resource "get" id))
   (GET "/:resource" [resource] (api-result resource))
   (ANY "*" [] (route/not-found (slurp (io/resource "404.html")))))
