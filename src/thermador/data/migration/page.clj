@@ -6,14 +6,9 @@
 
 (defn make-title-from-md-file-name
   [md]
-  (let [words (-> md
-                  (str/split #"\.")
-                  (first)
-                  (str/split #"_"))]
-    (->> words
-         (map str/capitalize)
-         (interpose " ")
-         (apply str))))
+  (-> md
+      (str/split #"\.")
+      (first)))
 
 (defn create-page-from-markdown-text
   [name markdown]
