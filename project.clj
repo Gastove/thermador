@@ -2,21 +2,24 @@
   :description "Personal Server and Projects"
   :url "http://thermador.herokuapp.com"
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/java.jdbc "0.3.3"]
-                 [postgresql "9.3-1101.jdbc4"]
-                 [compojure "1.1.1"]
-                 [ring/ring-jetty-adapter "1.1.0"]
-                 [ring/ring-devel "1.1.0"]
-                 [ring-basic-authentication "1.0.1"]
-                 [ring-cors "0.1.0"]
-                 [environ "0.5.0"]
-                 [cheshire "5.3.1"]
-                 [com.cemerick/drawbridge "0.0.6"]
+                 [org.clojure/java.jdbc "0.6.1"]
+                 [postgresql "9.3-1102.jdbc4"]
+                 [compojure "1.6.0"]
+                 [http-kit "2.2.0"]
+                 [ring-basic-authentication "1.0.5"]
+                 [ring-cors "0.1.10"]
+                 [ring/ring-defaults "0.3.0"]
+                 [ring/ring-devel "1.6.1"]
+
+                 [environ "1.1.0"]
+                 [cheshire "5.7.1"]
+                 [com.cemerick/drawbridge "0.0.7"]
                  [com.dropbox.core/dropbox-core-sdk "2.1.1"
                   :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [com.taoensso/carmine "2.6.2"]
                  [com.taoensso/timbre "3.2.1"]
                  [joda-time/joda-time "2.4"]]
+  :main ^:skip-aot thermador.web
   :min-lein-version "2.0.0"
   :ring {:handler thermador.web/application-routes
          :init thermador.config.init/init}
