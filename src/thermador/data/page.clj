@@ -1,8 +1,6 @@
 (ns thermador.data.page
-  (:require [thermador.data.model :as model]
-            [compojure.core :refer [defroutes GET]]
-            [cheshire.core :refer [generate-string]])
-  (:import [org.joda.time.format DateTimeFormat]))
+  (:require [thermador.data.model :as model])
+  (:import org.joda.time.format.DateTimeFormat))
 
 (def -PageEntityFields
   {:title ""
@@ -20,13 +18,13 @@
 
 (defn create-page
   ([fields]
-     (model/create Page -PageEntityFields fields))
+   (model/create Page -PageEntityFields fields))
   ([name title body & {:keys [datum-name] :or {datum-name name}}]
-     (let [fields {:name name
-                   :title title
-                   :body body
-                   :datum-name datum-name}]
-       (create-page fields))))
+   (let [fields {:name name
+                 :title title
+                 :body body
+                 :datum-name datum-name}]
+     (create-page fields))))
 
 (defn format-datetime
   [dt]
@@ -40,7 +38,3 @@
         ret-obj (select-keys data [:title :body :name])
         ret-obj (assoc ret-obj :created-on created-on)]
     ret-obj))
-
-;; (defroutes page-routes
-;;   (GET "/:id" [id] (rest-api/make-return (model/retrieve :lookup-id :datum-name Page id)))
-;;   (GET "/" [] (rest-api/make-return (model/retrieve :all :datum-name Page))))
