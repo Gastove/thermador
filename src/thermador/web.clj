@@ -14,7 +14,8 @@
             [ring.middleware.session.cookie :as cookie]
             [ring.middleware.stacktrace :as trace]
             [taoensso.timbre :as log]
-            [thermador.rest :as rest-api]))
+            [thermador.rest :as rest-api]
+            [thermador.config.init :refer [init!]]))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
@@ -53,6 +54,7 @@
   (let [port (Integer. (or port (env :port) 5000))
         ip (or (env :thermador-ip) "0.0.0.0")
         store (cookie/cookie-store {:key (env :session-secret)})]
+    (init!)
     (http-kit/run-server (-> application
                              ((if (env :production)
                                 wrap-error-page
