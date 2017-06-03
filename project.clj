@@ -18,7 +18,9 @@
                   :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [com.taoensso/carmine "2.6.2"]
                  [com.taoensso/timbre "3.2.1"]
-                 [joda-time/joda-time "2.4"]]
+                 [joda-time/joda-time "2.4"]
+                 [me.raynes/fs "1.4.6"]
+                 [byte-streams "0.2.3"]]
   :main ^:skip-aot thermador.web
   :min-lein-version "2.0.0"
   :ring {:handler thermador.web/application-routes
