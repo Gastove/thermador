@@ -31,8 +31,7 @@
   (let [client (get-dbx-client)
         file-client (get-dbx-file-client client)
         download-client (.download file-client file-path)]
-    (with-open [stream (.getInputStream download-client)]
-      (slurp stream))))
+    (.getInputStream download-client)))
 
 (defn list-folder-contents
   [path]
