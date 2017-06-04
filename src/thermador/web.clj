@@ -15,7 +15,8 @@
             [ring.middleware.stacktrace :as trace]
             [taoensso.timbre :as log]
             [thermador.rest :as rest-api]
-            [thermador.config.init :refer [init!]]))
+            [thermador.config.init :refer [init!]])
+  (:gen-class))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
