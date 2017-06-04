@@ -10,7 +10,6 @@
                  [ring-cors "0.1.10"]
                  [ring/ring-defaults "0.3.0"]
                  [ring/ring-devel "1.6.1"]
-
                  [environ "1.1.0"]
                  [cheshire "5.7.1"]
                  [com.cemerick/drawbridge "0.0.7"]
@@ -18,16 +17,21 @@
                   :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [com.taoensso/carmine "2.6.2"]
                  [com.taoensso/timbre "3.2.1"]
-                 [joda-time/joda-time "2.4"]
+                 [joda-time/joda-time "2.9.9"]
                  [me.raynes/fs "1.4.6"]
-                 [byte-streams "0.2.3"]]
+                 [byte-streams "0.2.3"]
+                 [jarohen/nomad "0.7.3"]]
   :main ^:skip-aot thermador.web
   :min-lein-version "2.0.0"
   :ring {:handler thermador.web/application-routes
          :init thermador.config.init/init}
   :plugins [[lein-environ "0.5.0"]
             [lein-ring "0.8.11"]]
-  :profiles {:production {:env {:production true
+  :profiles {:uberjar {:main thermador.web
+                       :aot :all
+                       ;; Drawbridge gets hella mad without this
+                       :dependencies [[org.clojure/tools.nrepl "0.2.12"]]}
+             :production {:env {:production true
                                 :timbre-log-level :info}}
              :dev {:env {:production false
                          :timbre-log-level :debug
