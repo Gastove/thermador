@@ -1,26 +1,16 @@
-* Boy, this is hard.
-* Functional CRUD
-  What, really, is the difference between:
-  1. Creating a new thing with new fields.
-  2. Storing an old thing with existing fields?
-  Really, it's only a question of where the fields come from -- do they need to be set,
-  or do they already exist?
-
-  What ID will a REST request process?
-
-  + *So here's a thing*:
-    - I've been calling a model an Atom, but right now they aren't returned as atoms from the DB.
-      ...or are they?
-      No. They really aren't. Anything coming out of the DB that I want to be atomic, is gonna
-      have to be put back in an atom.
-
 * To Do
-
-** Next steps
-   - Nice to Haves [0/3]
-     - [ ] Make sync-redis do a more sensical job -- new version in dbx should overwrite.
-     - [ ] Main method for migration
-     - [ ] Heroku Scheduler
+** TODO Wire up Nomad for configuration
+** TODO Figure out deploying nomad secret files
+** TODO The Great Renamening!
+thermador -> voltron
+*** TODO Rename in project
+*** TODO Move voltron.cljs into project
+** TODO Move from Joda -> clj-time
+** Old Next steps
+   - Nice to Haves [3/3]
+     - [X] Make sync-redis do a more sensical job -- new version in dbx should overwrite.
+     - [X] Main method for migration
+     - [X] Heroku Scheduler
 
    - Good to do [1/2]
      - [ ] Clean up CORS, make sure it's sensible for dev vs prod.

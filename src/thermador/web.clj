@@ -1,19 +1,22 @@
 (ns thermador.web
-  (:require [compojure.core :refer [defroutes context GET PUT POST DELETE ANY]]
+  (:require [cemerick.drawbridge :as drawbridge]
+            [clojure.java.io :as io]
+            [compojure.core :refer [ANY context defroutes DELETE GET POST PUT]]
             [compojure.handler :refer [site]]
             [compojure.route :as route]
-            [clojure.java.io :as io]
-            [ring.middleware.stacktrace :as trace]
+            [environ.core :refer [env]]
+            [org.httpkit.server :as http-kit]
+            [ring.middleware.basic-authentication :as basic]
+            [ring.middleware.cors :as cors]
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [ring.middleware.reload :as reload]
             [ring.middleware.session :as session]
             [ring.middleware.session.cookie :as cookie]
-            [ring.middleware.cors :as cors]
-            [ring.middleware.reload :as reload]
-            [ring.adapter.jetty :as jetty]
-            [ring.middleware.basic-authentication :as basic]
-            [cemerick.drawbridge :as drawbridge]
-            [environ.core :refer [env]]
+            [ring.middleware.stacktrace :as trace]
             [taoensso.timbre :as log]
-            [thermador.rest :as rest-api]))
+            [thermador.rest :as rest-api]
+            [thermador.config.init :refer [init!]])
+  (:gen-class))
 
 (defn- authenticated? [user pass]
   (= [user pass] [(env :repl-user false) (env :repl-password false)]))
@@ -36,7 +39,7 @@
        (route/not-found (slurp (io/resource "404.html")))))
 
 (def application
-  (-> (site application-routes)
+  (-> (wrap-defaults application-routes api-defaults)
       reload/wrap-reload
       (cors/wrap-cors :access-control-allow-origin #".*")))
 
@@ -50,13 +53,15 @@
 
 (defn -main [& [port]]
   (let [port (Integer. (or port (env :port) 5000))
+        ip (or (env :thermador-ip) "0.0.0.0")
         store (cookie/cookie-store {:key (env :session-secret)})]
-    (jetty/run-jetty (-> application
-                         ((if (env :production)
-                            wrap-error-page
-                            trace/wrap-stacktrace))
-                         (site {:session {:store store}}))
-                     {:port port :join? false})))
+    (init!)
+    (http-kit/run-server (-> application
+                             ((if (env :production)
+                                wrap-error-page
+                                trace/wrap-stacktrace))
+                             (site {:session {:store store}}))
+                         {:port port :ip ip})))
 
 ;; For interactive development:
 ;; (.stop server)
